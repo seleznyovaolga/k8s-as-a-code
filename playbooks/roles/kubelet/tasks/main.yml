@@ -1,13 +1,15 @@
+- name: Update & upgrade repository
+  apt:
+    upgrade: yes
+
 - name: Remove swapfile from /etc/fstab
-  mount:
-    name: swap
-    fstype: swap
-    state: absent
+  replace:
+    path: /etc/fstab
+    regexp: '^([^#].*?\sswap\s+sw\s+.*)$'
+    replace: '# \1'
 
 - name: Disable swap
   shell: swapoff -a
-  when: ansible_swaptotal_mb > 0
-
 
 - name: Instal pre packages
   apt:
@@ -18,17 +20,15 @@
     url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
     state: present
 
-- name: Add kubernetes repositorie
+- name: Add kubernetes repository
   apt_repository:
     repo: deb http://apt.kubernetes.io/ kubernetes-xenial main
     state: present
 
-
 - name: Installing kubeadm, kubelet, kubectl, and shared packages stable
   apt:
-    name: ['kubelet', 'kubeadm', 'kubectl', 'unzip', 'tar', 'btrfs-tools', 'libseccomp2', 'socat', 'util-linux', 'curl', 'nfs-common', 'portmap', 'ceph-common', 'python-apt']
+    name: ['kubelet', 'kubeadm', 'kubectl', 'unzip', 'tar', 'btrfs-progs', 'libseccomp2', 'socat', 'util-linux', 'curl', 'nfs-common', 'portmap', 'ceph-common', 'python-apt-common']
     update_cache: yes
-
 
 - name: Enable & start kubelet
   systemd:

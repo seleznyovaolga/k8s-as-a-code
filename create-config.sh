@@ -6,13 +6,13 @@
 
 
 # master01 ip address
-export K8SHA_IP1=10.73.71.25
+export K8SHA_IP1=10.10.2.254
 
 # master02 ip address
-export K8SHA_IP2=10.73.71.26
+export K8SHA_IP2=10.10.2.253
 
 # master03 ip address
-export K8SHA_IP3=10.73.71.27
+export K8SHA_IP3=10.10.2.252
 
 
 # master01 hostname

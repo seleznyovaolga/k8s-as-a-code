@@ -1,0 +1,5 @@
+kubeadm:
+  iplocal: "{{ ansible_host }}"
+  k8sha_ip1: 10.10.2.254
+  k8sha_ip2: 10.10.2.253
+  k8sha_ip3: 10.10.2.252

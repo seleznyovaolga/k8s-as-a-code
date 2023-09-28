@@ -1,0 +1,8 @@
+- name: Setting up kubeadm
+  hosts: master1
+  become: yes
+  become_method: sudo
+  tasks:
+    - name: Init kubeadm on master1
+      include_role:
+        name: kubeadm-init

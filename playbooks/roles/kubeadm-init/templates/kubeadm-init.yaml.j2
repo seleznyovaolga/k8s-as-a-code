@@ -1,0 +1,28 @@
+---
+apiVersion: kubeadm.k8s.io/v1beta3
+kind: InitConfiguration
+localAPIEndpoint:
+  advertiseAddress: {{ kubeadm.iplocal }}
+---
+apiVersion: kubeadm.k8s.io/v1beta3
+kind: ClusterConfiguration
+kubernetesVersion: stable
+apiServer:
+  certSANs:
+  - {{ kubeadm.k8sha_ip1 }}
+  - {{ kubeadm.k8sha_ip2 }}
+  - {{ kubeadm.k8sha_ip3 }}
+  - 127.0.0.1
+controlPlaneEndpoint: {{ kubeadm.iplocal }}
+etcd:
+  external:
+    endpoints:
+    - http://{{ kubeadm.k8sha_ip1 }}:2379
+    - http://{{ kubeadm.k8sha_ip2 }}:2379
+    - http://{{ kubeadm.k8sha_ip3 }}:2379
+networking:
+  podSubnet: 192.168.0.0/16
+  serviceSubnet: "10.96.0.0/12"
+  dnsDomain: "cluster.local"
+
+

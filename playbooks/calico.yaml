@@ -1,0 +1,8 @@
+- name: Setting up calico
+  hosts: master1
+  become: yes
+  become_method: sudo
+  tasks:
+    - name: Init calico on master1
+      include_role:
+        name: calico

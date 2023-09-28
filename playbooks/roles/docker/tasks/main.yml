@@ -3,7 +3,6 @@
     name: ['apt-transport-https', 'ca-certificates', 'software-properties-common', 'curl', 'gnupg2']
     update_cache: yes
 
-
 - name: Add docker gpg key
   apt_key:
     url: https://download.docker.com/linux/debian/gpg
@@ -14,7 +13,7 @@
     id: 0EBFCD88
     state: present
 
-- name:  Get docker repositorie
+- name:  Get docker repository
   shell: |
     echo "deb https://download.docker.com/linux/$(. /etc/os-release; echo "$ID") $(lsb_release -cs) stable"
   register: debString
@@ -29,7 +28,18 @@
   apt:
     update_cache: yes
 
-
 - name: Installing docker
   apt:
     name: ['docker-ce', 'docker-ce-cli', 'containerd.io']
+
+- name: Remove containerd config.toml
+  ansible.builtin.file:
+    path: /etc/containerd/config.toml
+    state: absent
+
+- name: Enable and start docker
+  systemd:
+    name: docker
+    state: started
+    enabled: yes
+    daemon_reload: yes
